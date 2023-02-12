@@ -25,6 +25,7 @@ export default function Home() {
 
   useEffect(() => {
     const getAllTodos = async () => {
+      setAllTodoList([])
       const res = await api("/getAllTodoCards");
       setAllTodoList(res.data);
     };
@@ -34,11 +35,20 @@ export default function Home() {
   return (
     <>
       <Header ModalHandler={ModalHandler} />
-      <TodoCard
-        alllTodoList={alllTodoList}
-        ModalHandler={ModalHandler}
-        triggerApiHandler={triggerApiHandler}
-      />
+      {/* Loader */}
+      {alllTodoList.length == 0 && (
+        <div className="flex items-center justify-center">
+          <img src="loader.gif" width={100}></img>
+        </div>
+      )}
+      {alllTodoList.length > 0 && (
+        <TodoCard
+          alllTodoList={alllTodoList}
+          ModalHandler={ModalHandler}
+          triggerApiHandler={triggerApiHandler}
+        />
+      )}
+
       {isOpenModal && (
         <Modal
           triggerApiHandler={triggerApiHandler}
